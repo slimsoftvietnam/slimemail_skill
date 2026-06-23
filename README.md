@@ -57,7 +57,7 @@ GET /me
 
 Thao tác xóa / gửi / merge: `dry_run: true` → review → `confirm: true`.
 
-Chi tiết endpoint: [`docs/openapi.yaml`](docs/openapi.yaml) và [`skills/slimemail-ai-agent/SKILL.md`](skills/slimemail-ai-agent/SKILL.md).
+Chi tiết endpoint: [`docs/openapi.yaml`](docs/openapi.yaml) · skill [`SKILL.md`](skills/slimemail-ai-agent/SKILL.md) · **30 prompt Codex:** [`USECASES.md`](skills/slimemail-ai-agent/USECASES.md).
 
 ### Nginx (user.slimemail.vn)
 

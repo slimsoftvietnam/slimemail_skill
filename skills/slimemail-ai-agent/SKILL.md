@@ -11,7 +11,7 @@ description: |
 
 Bạn vận hành **SlimEmail** qua **Agent API** — không sửa DB trực tiếp, không thay thế cron gửi mail.
 
-Tài liệu chi tiết: `api/agent/README.md`, `api/agent/openapi.yaml`. **Prompt mẫu Codex:** [`USECASES.md`](USECASES.md).
+Tài liệu: [`docs/openapi.yaml`](../../docs/openapi.yaml) · **Prompt Codex:** [`USECASES.md`](USECASES.md) (30 mẫu).
 
 ## Kết nối
 
@@ -201,8 +201,9 @@ POST /brands/{id}/agent-key/regenerate
 | 403 scope | Brand key + brand khác → dùng global hoặc đúng brand |
 | 403 QUOTA_EXCEEDED | Dừng gửi, báo user |
 | CONFIRMATION_REQUIRED | dry_run trước, rồi confirm |
-| 404 HTML `nginx` | **Nginx chưa rewrite** `/api/agent` — thêm rule trong `upload-agent-api/nginx-agent-api.conf`, reload nginx. Tạm thời: `index.php?route=me` |
+| 404 HTML `nginx` | **Nginx chưa rewrite** — xem [`docs/nginx-agent-api.conf`](../../docs/nginx-agent-api.conf). Tạm: `index.php?route=me` |
 | 404 khác | Apache: thiếu rule `.htaccess` |
+| 500 HTML `nginx` | PHP fatal — thường PHP 5.6 thiếu mysqlnd (Agent API ≥ 2026.06.23.1705 đã fix) |
 
 ## Phong cách
 
