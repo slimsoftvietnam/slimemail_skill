@@ -8,7 +8,7 @@ Repo **public** chứa **skill** để agent (Cursor, Codex, …) điều khiể
 
 ```
 slimemail_skill/
-├── skills/slimemail-ai-agent/   # Skill chính — đọc SKILL.md trước
+├── skills/slimemail-ai-agent/   # SKILL.md + USECASES.md (30 prompt Codex)
 ├── rules/                       # Cursor rule (tùy chọn)
 ├── docs/openapi.yaml            # OpenAPI spec Agent API
 └── .env.example                 # Biến môi trường mẫu
