@@ -1,0 +1,15 @@
+---
+description: Kích hoạt skill SlimEmail Agent API khi làm email marketing, brand, list, campaign qua API
+globs:
+  - api/agent/**
+  - upload-agent-api/**
+alwaysApply: false
+---
+
+Khi task liên quan SlimEmail Agent API, Codex, brand key, list/subscriber/campaign qua REST:
+
+1. Đọc và tuân theo skill **slimemail-ai-agent** (`.cursor/skills/slimemail-ai-agent/SKILL.md`).
+2. Luôn `GET /me` trước; dùng `SLIMEMAIL_*` env nếu có.
+3. Thao tác nguy hiểm: dry_run → confirm. Không hardcode API key.
+
+Docs: `api/agent/README.md`, spec: `api/agent/openapi.yaml`.

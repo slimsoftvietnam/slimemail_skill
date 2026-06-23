@@ -1,0 +1,221 @@
+openapi: 3.0.3
+info:
+  title: SlimEmail Agent API
+  version: 1.0.0
+  description: |
+    REST API for AI agents to control SlimEmail.
+
+    **Authentication modes:**
+    - **Global** — `login.api_key` (Settings → API key): access all brands
+    - **Brand-scoped** — `apps.agent_api_key`: access one brand only
+
+    Check mode via `GET /me` → `data.auth.mode`
+servers:
+  - url: https://user.slimemail.vn/api/agent
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+paths:
+  /me:
+    get:
+      summary: Current user info and auth mode (global or brand-scoped)
+  /brands/{brand_id}/agent-key:
+    get:
+      summary: Get brand agent API key status (global key only)
+  /brands/{brand_id}/agent-key/regenerate:
+    post:
+      summary: Regenerate brand agent API key (global key only)
+  /brands:
+    get:
+      summary: List all brands
+    post:
+      summary: Create brand
+  /brands/{brand_id}:
+    get:
+      summary: Get brand detail
+    patch:
+      summary: Update brand
+    delete:
+      summary: Delete brand
+  /brands/{brand_id}/quota:
+    get:
+      summary: Brand quota and expiry
+  /brands/{brand_id}/lists:
+    get:
+      summary: List email lists
+    post:
+      summary: Create list
+  /lists/{list_id}:
+    get:
+      summary: Get list
+    patch:
+      summary: Rename/update list
+    delete:
+      summary: Delete list
+  /lists/clone:
+    post:
+      summary: Clone list to another brand
+  /lists/clone/preview:
+    post:
+      summary: Preview clone operation
+  /lists/{list_id}/subscribers:
+    get:
+      summary: List subscribers
+    post:
+      summary: Add subscribers
+    delete:
+      summary: Delete subscribers bulk
+  /subscribers/move:
+    post:
+      summary: Move subscribers between lists
+  /brands/{brand_id}/campaigns:
+    get:
+      summary: List campaigns
+    post:
+      summary: Create campaign draft
+  /campaigns/{campaign_id}:
+    get:
+      summary: Campaign detail with content and metrics
+    patch:
+      summary: Update draft campaign
+    delete:
+      summary: Delete campaign
+  /campaigns/{campaign_id}/send:
+    post:
+      summary: Send campaign now
+  /campaigns/{campaign_id}/schedule:
+    post:
+      summary: Schedule campaign
+  /campaigns/{campaign_id}/analytics/deep:
+    get:
+      summary: Deep analytics
+  /campaigns/{campaign_id}/subscribers:
+    get:
+      summary: Campaign segment subscribers (opened, clicked, unopened...)
+  /brands/{brand_id}/analytics/lists:
+    get:
+      summary: List performance analytics for one brand
+  /analytics/weekly-report:
+    get:
+      summary: Weekly (or N-day) report across all brands in auth scope
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 7
+      description: |
+        Returns summary, per-brand sections, global top campaigns/lists, and agent_hints.
+        Global key = all brands; brand key = single brand only.
+  /analytics/top-campaigns:
+    get:
+      summary: Top sent campaigns in period (cross-brand within auth scope)
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 7
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [open_rate, click_rate]
+            default: open_rate
+  /analytics/top-lists:
+    get:
+      summary: Top lists by avg open/click from campaigns in period
+      parameters:
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 30
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [open_rate, click_rate]
+            default: open_rate
+  /lists/merge:
+    post:
+      summary: Merge multiple source lists into one target list
+      description: |
+        Requires dry_run preview first. Requires confirm:true to execute.
+        Cross-brand merge requires global API key.
+        Source lists are not deleted.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [target_list_id, source_list_ids]
+              properties:
+                target_list_id:
+                  type: integer
+                source_list_ids:
+                  type: array
+                  items:
+                    type: integer
+                options:
+                  type: object
+                  properties:
+                    subscriber_filter:
+                      type: string
+                      enum: [active_only, all]
+                    skip_duplicates_in_target:
+                      type: boolean
+                dry_run:
+                  type: boolean
+                confirm:
+                  type: boolean
+  /brands/{brand_id}/housekeeping/summary:
+    get:
+      summary: Per-list housekeeping counts for a brand
+  /lists/{list_id}/housekeeping:
+    post:
+      summary: Run housekeeping action on a list
+      description: |
+        Actions: delete_unconfirmed_all, delete_unconfirmed_1week, delete_inactive,
+        delete_bounced, delete_unsubscribed.
+        Use dry_run:true first. delete_inactive accepts type and days in body.
+  /lists/{list_id}/subscribers/inactive:
+    get:
+      summary: List inactive subscribers (preview before delete)
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [not_opened, stale, unconfirmed, bounced, unsubscribed, complained]
+            default: not_opened
+        - name: days
+          in: query
+          schema:
+            type: integer
+            default: 90
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+  /tasks/{job_id}:
+    get:
+      summary: Async job status (list clone)
