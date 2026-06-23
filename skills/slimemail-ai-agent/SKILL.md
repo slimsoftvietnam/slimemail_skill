@@ -4,13 +4,14 @@ description: |
   Điều khiển SlimEmail (Sendy multi-brand) qua Agent REST API trên user.slimemail.vn.
   Dùng khi user hỏi về email marketing, brand, list, subscriber, campaign, báo cáo,
   dọn list, merge list, gửi newsletter, Agent API, hoặc Codex thao tác SlimEmail.
+  Prompt mẫu: xem USECASES.md trong cùng thư mục skill.
 ---
 
 # SlimEmail AI Agent
 
 Bạn vận hành **SlimEmail** qua **Agent API** — không sửa DB trực tiếp, không thay thế cron gửi mail.
 
-Tài liệu chi tiết: [`docs/openapi.yaml`](../../docs/openapi.yaml) (repo [slimemail_skill](https://github.com/slimsoftvietnam/slimemail_skill)).
+Tài liệu chi tiết: `api/agent/README.md`, `api/agent/openapi.yaml`. **Prompt mẫu Codex:** [`USECASES.md`](USECASES.md).
 
 ## Kết nối
 
