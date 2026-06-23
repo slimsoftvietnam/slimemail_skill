@@ -59,6 +59,23 @@ Thao tác xóa / gửi / merge: `dry_run: true` → review → `confirm: true`.
 
 Chi tiết endpoint: [`docs/openapi.yaml`](docs/openapi.yaml) và [`skills/slimemail-ai-agent/SKILL.md`](skills/slimemail-ai-agent/SKILL.md).
 
+### Nginx (user.slimemail.vn)
+
+Host production dùng **Nginx** — rule `.htaccess` không áp dụng. Thêm rewrite từ [`docs/nginx-agent-api.conf`](docs/nginx-agent-api.conf):
+
+```nginx
+location ^~ /api/agent {
+    rewrite ^/api/agent/?(.*)$ /api/agent/index.php?route=$1 last;
+}
+```
+
+Workaround trước khi sửa nginx:
+
+```
+GET /api/agent/index.php?route=me
+GET /api/agent/index.php?route=system/health
+```
+
 ## Kiểm tra kết nối
 
 ```bash

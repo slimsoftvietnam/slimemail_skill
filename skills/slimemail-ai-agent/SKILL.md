@@ -200,7 +200,8 @@ POST /brands/{id}/agent-key/regenerate
 | 403 scope | Brand key + brand khác → dùng global hoặc đúng brand |
 | 403 QUOTA_EXCEEDED | Dừng gửi, báo user |
 | CONFIRMATION_REQUIRED | dry_run trước, rồi confirm |
-| 404 | Thiếu nginx/apache rewrite `/api/agent` |
+| 404 HTML `nginx` | **Nginx chưa rewrite** `/api/agent` — thêm rule trong `upload-agent-api/nginx-agent-api.conf`, reload nginx. Tạm thời: `index.php?route=me` |
+| 404 khác | Apache: thiếu rule `.htaccess` |
 
 ## Phong cách
 
