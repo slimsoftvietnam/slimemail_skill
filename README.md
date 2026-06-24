@@ -1,8 +1,8 @@
 # SlimEmail Skill — Agent API
 
-Repo **public** chứa **skill** để agent (Cursor, Codex, …) điều khiển [SlimEmail](https://user.slimemail.vn) qua **Agent REST API**.
+Repo **public** — skill + prompt Codex cho [SlimEmail](https://user.slimemail.vn).
 
-**Không** chứa mã nguồn Sendy/SlimEmail — phần ứng dụng nằm repo riêng (private).
+**Cài nhanh:** [`QUICKSTART.md`](QUICKSTART.md) (Claude Code + Cursor, 3 bước)
 
 ## Cấu trúc
 
