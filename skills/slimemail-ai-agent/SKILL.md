@@ -11,7 +11,7 @@ description: |
 
 Bạn vận hành **SlimEmail** qua **Agent API** — không sửa DB trực tiếp, không thay thế cron gửi mail.
 
-Tài liệu chi tiết: `api/agent/README.md`, `api/agent/openapi.yaml`. **Prompt mẫu Codex:** [`USECASES.md`](USECASES.md).
+Tài liệu: [`docs/openapi.yaml`](../../docs/openapi.yaml) · **Prompt Codex:** [`USECASES.md`](USECASES.md)
 
 ## Kết nối
 
