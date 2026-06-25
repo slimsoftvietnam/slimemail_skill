@@ -44,6 +44,24 @@ paths:
   /brands/{brand_id}/quota:
     get:
       summary: Brand quota and expiry
+  /brands/{brand_id}/media:
+    get:
+      summary: List uploaded media for brand (agent uploads only, prefix b{brand_id}_)
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+    post:
+      summary: Upload image for email HTML
+      description: |
+        Multipart field `file` (or `upload`) OR JSON:
+        `{ "filename": "hero.png", "content_base64": "...", "mime": "image/png" }`
+        Max 2MB. Returns public `url` for `<img src>`.
+  /brands/{brand_id}/media/{filename}:
+    delete:
+      summary: Delete uploaded media file (confirm required)
   /brands/{brand_id}/lists:
     get:
       summary: List email lists

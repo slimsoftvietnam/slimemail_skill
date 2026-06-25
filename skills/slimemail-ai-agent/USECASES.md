@@ -2,7 +2,7 @@
 
 Copy **nguyên dòng prompt** gửi Codex. Agent phải tuân skill `slimemail-ai-agent`: `GET /me` trước, thao tác nguy hiểm cần `dry_run` rồi `confirm`.
 
-**Workflow:** A=khởi động · B=báo cáo · C=subscriber · D=dọn list · E=merge · F=clone · G=campaign · H=admin key
+**Workflow:** A=khởi động · B=báo cáo · C=subscriber · D=dọn list · E=merge · F=clone · G=campaign · H=admin key · **I=media**
 
 ---
 
@@ -180,6 +180,21 @@ Qua SlimEmail Agent API: liệt kê suppression brand {BRAND_ID} và thêm email
 **30 — Templates & segments**
 ```
 Qua SlimEmail Agent API: liệt kê templates và segments brand {BRAND_ID}, ghi id và tên để chọn cho campaign tiếp theo.
+```
+
+**31 — Upload ảnh (base64)**
+```
+Qua SlimEmail Agent API: upload ảnh base64 (filename + content_base64 + mime) lên brand {BRAND_ID}, trả URL public để nhúng email.
+```
+
+**32 — Upload ảnh + chèn campaign**
+```
+Qua SlimEmail Agent API: upload ảnh lên brand {BRAND_ID}, lấy URL, PATCH campaign {CAMPAIGN_ID} chèn <img src="URL"> vào html (chưa gửi).
+```
+
+**33 — Liệt kê media brand**
+```
+Qua SlimEmail Agent API: liệt kê 20 file media gần nhất brand {BRAND_ID} — filename, url, size.
 ```
 
 ---

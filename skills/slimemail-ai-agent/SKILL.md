@@ -11,7 +11,7 @@ description: |
 
 Bạn vận hành **SlimEmail** qua **Agent API** — không sửa DB trực tiếp, không thay thế cron gửi mail.
 
-Tài liệu: [`docs/openapi.yaml`](../../docs/openapi.yaml) · **Prompt Codex:** [`USECASES.md`](USECASES.md) (30 mẫu).
+Tài liệu chi tiết: `api/agent/README.md`, `api/agent/openapi.yaml`. **Prompt mẫu Codex:** [`USECASES.md`](USECASES.md).
 
 ## Kết nối
 
@@ -180,6 +180,20 @@ POST /brands/{id}/agent-key/regenerate
   { "confirm": true }
 ```
 
+## Workflow I — Media (ảnh cho email HTML)
+
+```
+GET /brands/{brand_id}/media?limit=20
+POST /brands/{brand_id}/media          multipart: file=@image.png
+POST /brands/{brand_id}/media          JSON: { "filename": "hero.png", "content_base64": "...", "mime": "image/png" }
+DELETE /brands/{brand_id}/media/{filename}   body: { "confirm": true }
+PATCH /campaigns/{id}                  nhúng url vào html: <img src="{url}" alt="..." width="600">
+```
+
+- Max **2MB**; định dạng: JPEG, PNG, GIF, WebP.
+- File lưu `uploads/b{brand_id}_{time}_{token}.ext` — URL public (custom domain brand nếu bật).
+- Agent tạo ảnh → upload → lấy `data.url` → chèn vào `html` campaign/template.
+
 ## Endpoint map (tóm tắt)
 
 | Nhóm | Path |
@@ -192,6 +206,7 @@ POST /brands/{id}/agent-key/regenerate
 | Campaigns | `/brands/{id}/campaigns`, `/campaigns/{id}/send`, `/schedule` |
 | Analytics | `/analytics/weekly-report`, `/top-campaigns`, `/top-lists` |
 | Templates/Segments | `/brands/{id}/templates`, `/brands/{id}/segments` |
+| Media | `/brands/{id}/media`, `/brands/{id}/media/{filename}` |
 
 ## Lỗi thường gặp
 
@@ -201,9 +216,9 @@ POST /brands/{id}/agent-key/regenerate
 | 403 scope | Brand key + brand khác → dùng global hoặc đúng brand |
 | 403 QUOTA_EXCEEDED | Dừng gửi, báo user |
 | CONFIRMATION_REQUIRED | dry_run trước, rồi confirm |
-| 404 HTML `nginx` | **Nginx chưa rewrite** — xem [`docs/nginx-agent-api.conf`](../../docs/nginx-agent-api.conf). Tạm: `index.php?route=me` |
+| 404 HTML `nginx` | **Nginx chưa rewrite** — xem `docs/nginx-agent-api.conf` (repo skill) hoặc `upload-agent-api/nginx-agent-api.conf`. Tạm: `index.php?route=me` |
 | 404 khác | Apache: thiếu rule `.htaccess` |
-| 500 HTML `nginx` | PHP fatal — thường PHP 5.6 thiếu mysqlnd (Agent API ≥ 2026.06.23.1705 đã fix) |
+| 500 HTML `nginx` | PHP fatal — thường PHP 5.6 thiếu mysqlnd (bản API ≥ 2026.06.23.1705 đã fix). Cập nhật Agent API qua updater |
 
 ## Phong cách
 
